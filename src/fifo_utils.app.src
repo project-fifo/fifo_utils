@@ -1,0 +1,12 @@
+{application, fifo_utils,
+ [
+  {description, ""},
+  {vsn, "0.1.0"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  lager,
+                  stdlib
+                 ]},
+  {mod, { fifo_uitls_app, []}}
+ ]}.
