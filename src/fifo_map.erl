@@ -160,11 +160,16 @@ nested_update([K], U) ->
 nested_update([K | Ks], U) ->
     [{update, {K, ?MAP}, {update, nested_update(Ks, U)}}].
 
+nested_create([K], [{}], _T) ->
+    Field = {K, ?MAP},
+    [{add, Field}];
+
 nested_create([K], V, T) ->
     {Type, Us} = update_from_value(V, T),
     Field = {K, Type},
     [{add, Field} |
      [{update, Field, U} || U <- Us]];
+
 
 nested_create([K | Ks], V, T) ->
     Field = {K, ?MAP},
