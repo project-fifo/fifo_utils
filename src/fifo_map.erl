@@ -117,6 +117,10 @@ from_orddict(D, Actor, Timestamp) ->
                         {error, not_a_map, term(), [binary()]} |
                         {ok, {[binary()], [binary()]}}.
 %%split_path([K | Ks], Existing, M) when is_list(Ks) ->
+
+split_path([], Existing, _M) ->
+    {ok, {[], lists:reverse(Existing)}};
+
 split_path([K | Ks], Existing, M) ->
     Keys = riak_dt_map:value(keyset, M),
     case orddict:find(K, Keys) of
