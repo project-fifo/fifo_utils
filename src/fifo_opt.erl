@@ -4,44 +4,38 @@
 -export([valid_type/2]).
 -endif.
 
--export([get/5, set/3]).
+-export([get/6, set/3]).
 
-get(Prefix, SubPrefix, Key, {EnvApp, EnvKey}, Dflt) ->
+get(Opts, Prefix, SubPrefix, Key, {EnvApp, EnvKey}, Dflt) ->
     P = ensure_bin(Prefix),
     SP = ensure_bin(SubPrefix),
-    case riak_core_metadata:get({P, SP}, Key) of
+    K = ensure_bin(Key),
+    case riak_core_metadata:get({P, SP}, K) of
         undefined ->
-            SKey = {ensure_str(Prefix), ensure_str(SubPrefix)},
-            case riak_core_metadata:get(SKey, Key) of
-                undefined ->
-                    V = case application:get_env(EnvApp, EnvKey) of
-                            {ok, Val} ->
-                                Val;
-                            undefined ->
-                                Dflt
-                        end,
-                    set(P, SP, Key, V),
-                    V;
-                V ->
-                    riak_core_metadata:delete(SKey),
-                    set(P, SP, Key, V)
-            end;
+            V = case application:get_env(EnvApp, EnvKey) of
+                    {ok, Val} ->
+                        Val;
+                    undefined ->
+                        Dflt
+                end,
+            set(Opts, P, SP, K, V),
+            V;
         V ->
             V
     end.
 
 set(Opts, Ks, Val) ->
-    case is_valid(Opts, Ks, Val) of
+    [Prefix, SubPrefix, Key] =
+        [ensure_bin(K) || K <- Ks],
+    set(Opts, Prefix, SubPrefix, Key, Val).
+
+set(Opts, Prefix, SubPrefix, Key, Val) ->
+    case is_valid(Opts, [Prefix, SubPrefix, Key], Val) of
         {true, V1} ->
-            [Prefix, SubPrefix, Key] =
-                [list_to_atom(K) || K <- Ks],
-            set(Prefix, SubPrefix, Key, V1);
+            riak_core_metadata:put({Prefix, SubPrefix}, Key, V1);
         E ->
             E
     end.
-
-set(Opts, Prefix, SubPrefix, Key, Val) ->
-    riak_core_metadata:put({Prefix, SubPrefix}, Key, Val).
 
 is_valid(Opts, Ks, V) ->
     Ks1 = [ensure_str(K) || K <- Ks],
@@ -65,7 +59,7 @@ get_type([], _) ->
     {invalid, path};
 
 get_type([K], Os) ->
-    case proplists:get_value(K, Os) of
+    case proplists:get_value(ensure_str(K), Os) of
         undefined ->
             {invalid, key, K};
         Type ->
@@ -73,7 +67,7 @@ get_type([K], Os) ->
     end;
 
 get_type([K|R], Os) ->
-    case proplists:get_value(K, Os) of
+    case proplists:get_value(ensure_str(K), Os) of
         undefined ->
             case proplists:get_value('_', Os) of
                 undefined ->
@@ -104,6 +98,7 @@ valid_type(float, I) when is_list(I) ->
         _:_ ->
             false
     end;
+
 valid_type(float, I) when is_float(I) ->
     {true, I};
 
