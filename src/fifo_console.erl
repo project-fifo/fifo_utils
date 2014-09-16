@@ -32,7 +32,7 @@ fields(F, Vs) ->
            {"~n", []}).
 
 print_config(Prefix, SubPrefix) ->
-    Fmt = [{"Key", 20}, {"Value", 50}],
+    Fmt = [{"Key", 30}, {"Value", 50}],
     hdr(Fmt),
     PrintFn = fun({K, [V|_]}, _) ->
                       fields(Fmt, [key(Prefix, SubPrefix, K), V])
