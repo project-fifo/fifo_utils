@@ -29,6 +29,14 @@ set(Opts, Ks, Val) ->
         [ensure_bin(K) || K <- Ks],
     set(Opts, Prefix, SubPrefix, Key, Val).
 
+unset(Opts, K = [Prefix, SubPrefix, Key]) ->
+    case get_type(K) of
+        {ok, _} ->
+            riak_core_metadata:delete({Prefix, SubPrefix}, Key);
+        E  ->
+            E
+    end.
+
 set(Opts, Prefix, SubPrefix, Key, Val) ->
     case is_valid(Opts, [Prefix, SubPrefix, Key], Val) of
         {true, V1} ->
