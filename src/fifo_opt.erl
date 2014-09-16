@@ -4,7 +4,7 @@
 -export([valid_type/2]).
 -endif.
 
--export([get/6, set/3]).
+-export([get/6, set/3, unset/2]).
 
 get(Opts, Prefix, SubPrefix, Key, {EnvApp, EnvKey}, Dflt) ->
     P = ensure_bin(Prefix),
