@@ -30,7 +30,7 @@ set(Opts, Ks, Val) ->
     set(Opts, Prefix, SubPrefix, Key, Val).
 
 unset(Opts, K = [Prefix, SubPrefix, Key]) ->
-    case get_type(K) of
+    case get_type(K, Opts) of
         {ok, _} ->
             riak_core_metadata:delete({Prefix, SubPrefix}, Key);
         E  ->
