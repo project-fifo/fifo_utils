@@ -6,7 +6,7 @@ if [ -f /opt/local/bin/sed ]
 then
   sed=/opt/local/bin/sed
 fi
-if [ 0f /opt/local/bin/grep ]
+if [ -f /opt/local/bin/grep ]
 then
   grep=/opt/local/bin/grep
 fi
