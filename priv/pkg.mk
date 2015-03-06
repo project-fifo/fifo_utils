@@ -1,4 +1,3 @@
-
 TARGET_DIR ?= /opt/local/$(COMPONENT)
 FILE ?= $(COMPONENT)-$(VERSION)$(SUFFIX)
 BLOCK_SIZE ?= 65536
@@ -23,24 +22,24 @@ clean-pkg:
 	-rm -r tmp build-info packlist
 
 
-$(TMP_DIR)/$(FILE).tgz: package_list build_info
-	-rm -r $(TMP_DIR)
-	mkdir $(TMP_DIR)
-	pkg_create -i install.sh -k deinstall.sh -D displayfile -B build-info -c comment -d description -f packlist -I $(TARGET_DIR) -p $(STAGE_DIR) -U $(TMP_DIR)/$(FILE).tgz
+tmp/$(FILE).tgz: package_list build_info
+	-rm -r tmp
+	mkdir tmp
+	pkg_create -i install.sh -k deinstall.sh -D displayfile -B build-info -c comment -d description -f packlist -I $(TARGET_DIR) -p $(STAGE_DIR) -U tmp/$(FILE).tgz
 
 ifdef GPG_KEY
-$(FILE).tgz: $(TMP_DIR)/$(FILE).tgz +PKG_HASH +PKG_GPG_SIGNATURE
+$(FILE).tgz: tmp/$(FILE).tgz +PKG_HASH +PKG_GPG_SIGNATURE
 	-rm $(FILE).tgz
-	gar r $(FILE).tgz +PKG_HASH +PKG_GPG_SIGNATURE $(TMP_DIR)/$(FILE).tgz
-	rm -r $(TMP_DIR)
+	gar r $(FILE).tgz +PKG_HASH +PKG_GPG_SIGNATURE tmp/$(FILE).tgz
+	rm -r tmp
 else
-$(FILE).tgz: $(TMP_DIR)/$(FILE).tgz
-	cp $(TMP_DIR)/$(FILE).tgz $(FILE).tgz
-	rm -r $(TMP_DIR)
+$(FILE).tgz: tmp/$(FILE).tgz
+	cp tmp/$(FILE).tgz $(FILE).tgz
+	rm -r tmp
 endif
 
 
-+PKG_HASH: $(TMP_DIR)/$(FILE).tgz
++PKG_HASH: tmp/$(FILE).tgz
 	split -b $(BLOCK_SIZE) tmp/$(FILE).tgz tmp/split
 	echo "pkgsrc signature\n\nversion: 1\npkgname: $(FILE)" > +PKG_HASH
 	echo "algorithm: SHA512\nblock size: $(BLOCK_SIZE)" >> +PKG_HASH
