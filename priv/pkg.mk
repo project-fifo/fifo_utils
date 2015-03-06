@@ -1,5 +1,4 @@
 TARGET_DIR ?=/opt/local/$(COMPONENT)
-SUFFIX:=$(shell echo $(SUFFIX))
 FILE ?=$(COMPONENT)-$(VERSION)$(SUFFIX)
 BLOCK_SIZE ?=65536
 STAGE_DIR ?=deploy
@@ -24,7 +23,7 @@ clean-pkg:
 
 
 tmp/$(FILE).tgz: package_list build_info
-#	-rm -r tmp
+	-rm -r tmp
 	mkdir tmp
 	pkg_create -i install.sh -k deinstall.sh -D displayfile -B build-info -c comment -d description -f packlist -I $(TARGET_DIR) -p $(STAGE_DIR) -U tmp/$(FILE).tgz
 
