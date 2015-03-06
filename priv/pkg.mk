@@ -20,13 +20,13 @@ build_info:
 	echo "HOMEPAGE=$(PKG_HOMEPAGE)" >>build-info
 
 clean-pkg:
-	-rm -r tmp *.tgz build-info packlist
+	-rm -r tmp build-info packlist
 
 
 $(TMP_DIR)/$(FILE).tgz: package_list build_info
 	-rm -r $(TMP_DIR)
 	mkdir $(TMP_DIR)
-	pkg_create -i install.sh -k deinstall.sh -D displayfile -B build-info -c comment -d description -f packlist -I $(TARGET_DIR) -p ../../ -U $(TMP_DIR)/$(FILE).tgz
+	pkg_create -i install.sh -k deinstall.sh -D displayfile -B build-info -c comment -d description -f packlist -I $(TARGET_DIR) -p $(STAGE_DIR) -U $(TMP_DIR)/$(FILE).tgz
 
 ifdef GPG_KEY
 $(FILE).tgz: $(TMP_DIR)/$(FILE).tgz +PKG_HASH +PKG_GPG_SIGNATURE
