@@ -7,6 +7,8 @@ TMP_DIR ?= tmp
 PKG_CATEGORY ?= fifo
 PKG_HOMEPAGE ?= https://project-fifo.net
 
+.PHONY: package_list build_info clean-pkg
+
 package_list:
 	-rm packlist
 	for dep in $(DEPS); do echo "@pkgdep $$dep" >> packlist; done
