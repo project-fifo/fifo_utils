@@ -1,10 +1,10 @@
-TARGET_DIR ?= /opt/local/$(COMPONENT)
-FILE ?= $(COMPONENT)-$(VERSION)$(SUFFIX)
-BLOCK_SIZE ?= 65536
-STAGE_DIR ?= deploy
-TMP_DIR ?= tmp
-PKG_CATEGORY ?= fifo
-PKG_HOMEPAGE ?= https://project-fifo.net
+TARGET_DIR ?=/opt/local/$(COMPONENT)
+FILE ?=$(COMPONENT)-$(VERSION)$(SUFFIX)
+BLOCK_SIZE ?=65536
+STAGE_DIR ?=deploy
+TMP_DIR ?=tmp
+PKG_CATEGORY ?=fifo
+PKG_HOMEPAGE ?=https://project-fifo.net
 
 .PHONY: package_list build_info clean-pkg
 
