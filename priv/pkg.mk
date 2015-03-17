@@ -11,7 +11,7 @@ PKG_HOMEPAGE ?=https://project-fifo.net
 package_list:
 	-rm packlist
 	for dep in $(DEPS); do echo "@pkgdep $$dep" >> packlist; done
-	(cd deploy; find * -type f | sort) >> packlist
+	(cd $(STAGE_DIR); find * -type f | sort) >> packlist
 
 build_info:
 	pkg_info -X pkg_install | egrep '^(MACHINE_ARCH|OPSYS|OS_VERSION|PKGTOOLS_VERSION)' >build-info
