@@ -43,7 +43,7 @@ do
         then
             echo "${key} = ${val}"
         else
-            echo "${line}" | $sed "s/127.0.0.1/${IP}"
+            echo "${line}" | $sed "s/127.0.0.1/${IP}/"
         fi
     elif echo "${line}" | $grep '^#\+[ ]*.\+=.\+' > /dev/null
     then
@@ -54,10 +54,10 @@ do
         then
             echo "${key} = ${val}"
         else
-            echo "${line}" | $sed "s/127.0.0.1/${IP}"
+            echo "${line}" | $sed "s/127.0.0.1/${IP}/"
         fi
     else
-        echo "${line}" | $sed "s/127.0.0.1/${IP}"
+        echo "${line}" | $sed "s/127.0.0.1/${IP}/"
 
     fi
 done < "${example}"
