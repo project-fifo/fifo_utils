@@ -1,12 +1,14 @@
 {application, fifo_utils,
  [
   {description, ""},
-  {vsn, "0.1.9"},
+  {vsn, "0.1.10"},
   {registered, []},
   {applications, [
                   kernel,
                   lager,
                   stdlib
                  ]},
-  {mod, { fifo_uitls_app, []}}
+  {contributors, ["Heinz N. Gies"]},
+  {licenses, ["CDDL"]},
+  {links, [{"Github", "https://github.com/project-fifo/fifo_utils"}]}
  ]}.
