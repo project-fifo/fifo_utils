@@ -1,3 +1,5 @@
 .eunit
 deps
 ebin
+TEST-*
+_build
