@@ -6,11 +6,14 @@
 
 -export([get/6, set/3, unset/2]).
 
+get(Prefix, SubPrefix, Key) ->
+    P = fifo_utils:ensure_bin(Prefix),
+    SP = fifo_utils:ensure_bin(SubPrefix),
+    K = fifo_utils:ensure_bin(Key),
+    riak_core_metadata:get({P, SP}, K).
+
 get(Opts, Prefix, SubPrefix, Key, {EnvApp, EnvKey}, Dflt) ->
-    P = ensure_bin(Prefix),
-    SP = ensure_bin(SubPrefix),
-    K = ensure_bin(Key),
-    case riak_core_metadata:get({P, SP}, K) of
+    case get(Prefix, SubPrefix, Key) of
         undefined ->
             V = case application:get_env(EnvApp, EnvKey) of
                     {ok, Val} ->
@@ -18,7 +21,7 @@ get(Opts, Prefix, SubPrefix, Key, {EnvApp, EnvKey}, Dflt) ->
                     undefined ->
                         Dflt
                 end,
-            set(Opts, P, SP, K, V),
+            set(Opts, [Prefix, SubPrefix, Key], V),
             V;
         V ->
             V
@@ -26,7 +29,7 @@ get(Opts, Prefix, SubPrefix, Key, {EnvApp, EnvKey}, Dflt) ->
 
 set(Opts, Ks, Val) ->
     [Prefix, SubPrefix, Key] =
-        [ensure_bin(K) || K <- Ks],
+        [fifo_utils:ensure_bin(K) || K <- Ks],
     set(Opts, Prefix, SubPrefix, Key, Val).
 
 unset(Opts, Ks) ->
@@ -41,7 +44,7 @@ set(Opts, Prefix, SubPrefix, Key, Val) ->
     end.
 
 is_valid(Opts, Ks, V) ->
-    Ks1 = [ensure_str(K) || K <- Ks],
+    Ks1 = [fifo_utils:ensure_str(K) || K <- Ks],
     case get_type(Ks1, Opts) of
         {ok, Type} ->
             case  valid_type(Type, V) of
@@ -62,7 +65,7 @@ get_type([], _) ->
     {invalid, path};
 
 get_type([K], Os) ->
-    case proplists:get_value(ensure_str(K), Os) of
+    case proplists:get_value(fifo_utils:ensure_str(K), Os) of
         undefined ->
             {invalid, key, K};
         Type ->
@@ -70,7 +73,7 @@ get_type([K], Os) ->
     end;
 
 get_type([K|R], Os) ->
-    case proplists:get_value(ensure_str(K), Os) of
+    case proplists:get_value(fifo_utils:ensure_str(K), Os) of
         undefined ->
             case proplists:get_value('_', Os) of
                 undefined ->
@@ -133,18 +136,3 @@ valid_type({enum, Vs}, V) ->
 valid_type(_, _) ->
     false.
 
-ensure_str(V) when is_atom(V) ->
-    atom_to_list(V);
-ensure_str(V) when is_binary(V) ->
-    binary_to_list(V);
-ensure_str(V) when is_integer(V) ->
-    integer_to_list(V);
-ensure_str(V) when is_float(V) ->
-    float_to_list(V);
-ensure_str(V) when is_list(V) ->
-    V.
-
-ensure_bin(B) when is_binary(B) ->
-    B;
-ensure_bin(O) ->
-    list_to_binary(ensure_str(O)).

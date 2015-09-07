@@ -34,10 +34,12 @@ fields(F, Vs) ->
 print_config(Prefix, SubPrefix) ->
     Fmt = [{"Key", 30}, {"Value", 50}],
     hdr(Fmt),
+    PrefixB = fifo_utils:ensure_bin(Prefix),
+    SubPrefixB = fifo_utils:ensure_bin(SubPrefix),
     PrintFn = fun({K, [V|_]}, _) ->
                       fields(Fmt, [key(Prefix, SubPrefix, K), V])
               end,
-    riak_core_metadata:fold(PrintFn, ok, {Prefix, SubPrefix}).
+    riak_core_metadata:fold(PrintFn, ok, {PrefixB, SubPrefixB}).
 
 
 fields([{_, n}|R], [V | Vs], {Fmt, Vars}) when is_list(V)
