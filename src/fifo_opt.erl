@@ -4,7 +4,7 @@
 -export([valid_type/2]).
 -endif.
 
--export([get/6, set/3, unset/2]).
+-export([get/3, get/6, set/3, unset/2]).
 
 get(Prefix, SubPrefix, Key) ->
     P = fifo_utils:ensure_bin(Prefix),
