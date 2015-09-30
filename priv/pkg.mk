@@ -9,7 +9,7 @@ PKG_HOMEPAGE ?=https://project-fifo.net
 .PHONY: package_list build_info clean-pkg
 
 package_list:
-	-rm packlist
+	-rm packlist || true
 	for dep in $(DEPS); do echo "@pkgdep $$dep" >> packlist; done
 	(cd $(STAGE_DIR); find * -type f | sort) >> packlist
 
