@@ -1,6 +1,6 @@
 {application,fifo_utils,
              [{description,[]},
-              {vsn,"0.1.15"},
+              {vsn,"0.1.16"},
               {registered,[]},
               {applications,[kernel,lager,stdlib]},
               {contributors,["Heinz N. Gies"]},

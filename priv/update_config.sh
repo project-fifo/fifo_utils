@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+>&2 echo "#WARNING! This tool is depreacated due to problems it efectively is cat now."
+
+cat $2
+
 sed=sed
 grep=grep
 awk=awk
