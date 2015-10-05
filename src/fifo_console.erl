@@ -221,19 +221,36 @@ down([Node]) ->
     end.
 
 -spec(status([]) -> ok).
+%% TODO: This was the original replaced it with some own code
+%% status([]) ->
+%%     try
+%%         %% Stats = riak_kv_status:statistics(),
+%% 	%% StatString = format_stats(Stats,
+%%         %%             ["-------------------------------------------\n",
+%% 	%%	     io_lib:format("1-minute stats for ~p~n",[node()])]),
+%% 	%% io:format("~s\n", [StatString])
+%%         ok
+%%     catch
+%%         Exception:Reason ->
+%%             lager:error("Status failed ~p:~p", [Exception,
+%%                     Reason]),
+%%             io:format("Status failed, see log for details~n"),
+%%             error
+%%     end.
 status([]) ->
-    try
-        %% Stats = riak_kv_status:statistics(),
-	%% StatString = format_stats(Stats,
-        %%             ["-------------------------------------------\n",
-	%%	     io_lib:format("1-minute stats for ~p~n",[node()])]),
-	%% io:format("~s\n", [StatString])
-        ok
-    catch
-        Exception:Reason ->
-            lager:error("Status failed ~p:~p", [Exception,
-                    Reason]),
-            io:format("Status failed, see log for details~n"),
+    case riak_core_status:transfers() of
+        {[], []} ->
+            io:format("The cluster is fine!~n"),
+            ok;
+        {[], H} ->
+            io:format("There are ~p handoffs pending!~n", [length(H)]),
+            error;
+        {S, []} ->
+            io:format("There are ~p servers down!~n", [length(S)]),
+            error;
+        {S, H} ->
+            io:format("There are ~p handoffs pending and ~p servers down!~n",
+                      [length(H), length(S)]),
             error
     end.
 
