@@ -2,9 +2,6 @@
 
 -export([run/1, run/2, run_json/1, run_json/2]).
 
--ignore_xref([run_json/1, run/1, run_json/2]).
-
-
 run_json(Cmd) ->
     run_json(Cmd, []).
 
