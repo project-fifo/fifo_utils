@@ -5,7 +5,7 @@
 -export([get_ring/1, aae_status/1]).
 
 -export([status/1, join/1, leave/1, remove/1, down/1, vnode_status/1,
-         ringready/1, staged_join/1, reip/1, cluster_info/1, ensemble_status/1]).
+         ringready/1, staged_join/1, reip/1, cluster_info/1]).
 
 hdr(F) ->
     hdr_lines(lists:reverse(F), {"~n", [], "~n", []}).
@@ -344,19 +344,6 @@ cluster_info([OutFile|Rest]) ->
                 [Exception, Reason]),
             io:format("Cluster_info failed, see log for details~n"),
             error
-    end.
-
-ensemble_status([]) ->
-    fifo_ensemble_console:ensemble_overview();
-ensemble_status(["root"]) ->
-    fifo_ensemble_console:ensemble_detail(root);
-ensemble_status([Str]) ->
-    N = parse_int(Str),
-    case N of
-        undefined ->
-            io:format("No such ensemble: ~s~n", [Str]);
-        _ ->
-            fifo_ensemble_console:ensemble_detail(N)
     end.
 
 parse_int(IntStr) ->
