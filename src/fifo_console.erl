@@ -346,16 +346,6 @@ cluster_info([OutFile|Rest]) ->
             error
     end.
 
-parse_int(IntStr) ->
-    try
-        list_to_integer(IntStr)
-    catch
-        error:badarg ->
-            undefined
-    end.
-
-
-
 %% format_stats([], Acc) ->
 %%     lists:reverse(Acc);
 %% format_stats([{Stat, V}|T], Acc) ->
