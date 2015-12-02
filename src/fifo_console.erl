@@ -347,16 +347,16 @@ cluster_info([OutFile|Rest]) ->
     end.
 
 ensemble_status([]) ->
-    sniffle_ensemble_console:ensemble_overview();
+    fifo_ensemble_console:ensemble_overview();
 ensemble_status(["root"]) ->
-    sniffle_ensemble_console:ensemble_detail(root);
+    fifo_ensemble_console:ensemble_detail(root);
 ensemble_status([Str]) ->
     N = parse_int(Str),
     case N of
         undefined ->
             io:format("No such ensemble: ~s~n", [Str]);
         _ ->
-            sniffle_ensemble_console:ensemble_detail(N)
+            fifo_ensemble_console:ensemble_detail(N)
     end.
 
 parse_int(IntStr) ->

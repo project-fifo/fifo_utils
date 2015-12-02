@@ -1,9 +1,9 @@
 {application,fifo_utils,
-             [{description,[]},
+             [{description,"FiFo utility library"},
               {vsn,"0.1.17"},
               {registered,[]},
               {applications,[kernel,lager,stdlib]},
-              {contributors,["Heinz N. Gies"]},
+              {maintainers, ["Heinz N. Gies"]},
               {licenses,["CDDL"]},
               {links,[{"Github",
                        "https://github.com/project-fifo/fifo_utils"}]}]}.
