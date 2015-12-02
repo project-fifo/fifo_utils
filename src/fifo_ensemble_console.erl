@@ -21,7 +21,7 @@
 %% under the License.
 %%
 %% -------------------------------------------------------------------
--module(sniffle_ensemble_console).
+-module(fifo_ensemble_console).
 
 -include_lib("riak_ensemble/include/riak_ensemble_types.hrl").
 
