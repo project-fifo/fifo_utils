@@ -31,7 +31,7 @@ wait_for_port(Port, Reply) ->
 wait_for_port(Port, Reply, Timeout) ->
     receive
         {Port, {data, {eol, Data}}} ->
-            wait_for_port(Port, <<Reply/binary, Data/binary>>);
+            wait_for_port(Port, <<Reply/binary, Data/binary, "\n">>);
         {Port, {data, Data}} ->
             wait_for_port(Port, <<Reply/binary, Data/binary>>);
         {Port,{exit_status, 0}} ->
