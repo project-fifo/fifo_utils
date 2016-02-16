@@ -1,2 +1,4 @@
 [{<<"goldrush">>,{pkg,<<"goldrush">>,<<"0.1.6">>},1},
- {<<"lager">>,{pkg,<<"lager">>,<<"2.1.1">>},0}].
+ {<<"lager">>,{pkg,<<"lager">>,<<"2.1.1">>},0},
+ {<<"quickrand">>,{pkg,<<"quickrand">>,<<"1.5.1">>},1},
+ {<<"uuid">>,{pkg,<<"uuid_erl">>,<<"1.5.1">>},0}].
