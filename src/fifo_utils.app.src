@@ -2,7 +2,7 @@
              [{description,"FiFo utility library"},
               {vsn,"0.1.20"},
               {registered,[]},
-              {applications,[kernel,lager,stdlib]},
+              {applications,[kernel,lager,stdlib, uuid]},
               {maintainers,["Heinz N. Gies"]},
               {licenses,["CDDL"]},
               {links,[{"Github",
