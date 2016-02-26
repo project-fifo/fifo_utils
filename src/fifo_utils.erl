@@ -49,6 +49,8 @@ uuid_type_(<<9, _/binary>>) ->
     network;
 uuid_type_(<<10, _/binary>>) ->
     iprange;
+uuid_type_(<<11, _/binary>>) ->
+    grouping;
 uuid_type_(<<255, _/binary>>) ->
     ohter;
 uuid_type_(_) ->
@@ -87,6 +89,9 @@ uuid_(network) ->
 
 uuid_(iprange) ->
     uuid_(10);
+
+uuid_(grouping) ->
+    uuid_(11);
 
 uuid_(other) ->
     uuid_(255).
