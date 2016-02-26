@@ -51,6 +51,8 @@ uuid_type_(<<10, _/binary>>) ->
     iprange;
 uuid_type_(<<11, _/binary>>) ->
     grouping;
+uuid_type_(<<12, _/binary>>) ->
+    dtrace;
 uuid_type_(<<255, _/binary>>) ->
     ohter;
 uuid_type_(_) ->
@@ -92,6 +94,9 @@ uuid_(iprange) ->
 
 uuid_(grouping) ->
     uuid_(11);
+
+uuid_(dtrace) ->
+    uuid_(12);
 
 uuid_(other) ->
     uuid_(255).
