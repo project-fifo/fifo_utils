@@ -1,6 +1,6 @@
 -module(fifo_console).
 
--export([hdr/1, fields/2, print_config/2]).
+-export([hdr/1, fields/2, print_config/2, banner/1]).
 
 -export([get_ring/1, aae_status/1]).
 
@@ -445,3 +445,6 @@ format_timestamp(_Now, undefined) ->
     "--";
 format_timestamp(Now, TS) ->
     riak_core_format:human_time_fmt("~.1f", timer:now_diff(Now, TS)).
+
+banner(S) ->
+    io:format("~s~n", [string:centre(" " ++ S ++ " ", 79, $=)]).
