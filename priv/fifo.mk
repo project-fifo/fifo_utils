@@ -1,6 +1,6 @@
 REBAR = $(shell pwd)/rebar3
 PKG_VSN = $(shell head -n1 rel/pkg/Makefile | sed 's/[^0-9.p]//g')
-REBAR_VSN = $(shell grep 'release' rebar.config | sed 's/[^0-9.p]//g')
+REBAR_VSN = $(shell grep 'release' rebar.config | sed -e 's/^.* "//' -e 's/[^0-9.p]//g')
 VARS_VSN = $(shell grep 'bugsnag_app_version' rel/vars.config | sed -e 's/.*,//' -e 's/[^0-9.p]//g' -e 's/[.]$$//')
 APP_VSN = $(shell grep vsn apps/$(APP)/src/$(APP).app.src | sed 's/[^0-9.p]//g')
 
