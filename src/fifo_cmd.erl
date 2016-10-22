@@ -8,7 +8,7 @@ run_json(Cmd) ->
 run_json(Cmd, Args) ->
     case run(Cmd, Args) of
         {ok, Data} ->
-            {ok, jsx:decode(Data)};
+            {ok, jsone:decode(Data)};
         Error ->
             Error
     end.
