@@ -43,7 +43,7 @@ endif
 	split -b $(BLOCK_SIZE) tmp/$(FILE).tgz tmp/split
 	echo "pkgsrc signature\n\nversion: 1\npkgname: $(FILE)" > +PKG_HASH
 	echo "algorithm: SHA512\nblock size: $(BLOCK_SIZE)" >> +PKG_HASH
-	echo "file size: $(shell ls -l tmp/$(FILE).tgz | awk '{print $5;}')\n" >> +PKG_HASH
+	echo "file size: $(shell stat -c%s tmp/$(FILE).tgz)\n" >> +PKG_HASH
 	for file in tmp/split*; do digest -a sha512 $$file >> +PKG_HASH; done
 	echo "end pkgsrc signature" >> +PKG_HASH
 
