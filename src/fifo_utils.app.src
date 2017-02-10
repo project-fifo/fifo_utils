@@ -1,6 +1,6 @@
 {application,fifo_utils,
              [{description,"FiFo utility library"},
-              {vsn,"0.1.31"},
+              {vsn,"0.1.32"},
               {registered,[]},
               {applications,[kernel,lager,stdlib,uuid]},
               {maintainers,["Heinz N. Gies"]},

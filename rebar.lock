@@ -1,14 +1,14 @@
 {"1.1.0",
-[{<<"goldrush">>,{pkg,<<"goldrush">>,<<"0.1.8">>},1},
- {<<"jsone">>,{pkg,<<"jsone">>,<<"1.4.0">>},0},
- {<<"lager">>,{pkg,<<"lager">>,<<"3.2.1">>},0},
+[{<<"goldrush">>,{pkg,<<"goldrush">>,<<"0.1.9">>},1},
+ {<<"jsone">>,{pkg,<<"jsone">>,<<"1.4.1">>},0},
+ {<<"lager">>,{pkg,<<"lager">>,<<"3.2.4">>},0},
  {<<"quickrand">>,{pkg,<<"quickrand">>,<<"1.5.1">>},1},
  {<<"uuid">>,{pkg,<<"uuid_erl">>,<<"1.5.4">>},0}]}.
 [
 {pkg_hash,[
- {<<"goldrush">>, <<"2024BA375CEEA47E27EA70E14D2C483B2D8610101B4E852EF7F89163CDB6E649">>},
- {<<"jsone">>, <<"6ECFD2C91E16F48E1535743B57D01A42C65D7DD51A8B43E5723B1F79927169A8">>},
- {<<"lager">>, <<"EEF4E18B39E4195D37606D9088EA05BF1B745986CF8EC84F01D332456FE88D17">>},
+ {<<"goldrush">>, <<"F06E5D5F1277DA5C413E84D5A2924174182FB108DABB39D5EC548B27424CD106">>},
+ {<<"jsone">>, <<"10ECFB2E2FD216D6451AF71CF14F276E063A096E15B685DE7535FD680466C9B5">>},
+ {<<"lager">>, <<"A6DEB74DAE7927F46BD13255268308EF03EB206EC784A94EAF7C1C0F3B811615">>},
  {<<"quickrand">>, <<"0716A414376506F5F0F33CBD08DABA8F1FD2821437CAC99DBC6BE023BBCED2A1">>},
  {<<"uuid">>, <<"06240EFF3EAF013CC22274689B0C1FF6345645EE5D47A9E4ED7545EEB7698B23">>}]}
 ].
