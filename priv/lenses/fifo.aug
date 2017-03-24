@@ -1,6 +1,6 @@
 (*
 Module: FiFo
-  FiFo config files, based on Simplewar (aka copied)
+  FiFo config files, based on Simplevar (aka copied)
 
 Author: Raphael Pinson <raphink@gmail.com> / Heinz N. Gies <heinz@project-fifo.net>
 
