@@ -96,13 +96,21 @@ valid_type(integer, I) when is_list(I) ->
 valid_type(integer, I) when is_integer(I) ->
     {true, I};
 
-valid_type(float, I) when is_list(I) ->
-    try list_to_float(I) of
-        V ->
-            {true, V}
+valid_type(float, I) when is_integer(I) ->
+    {true, I*1.0};
+valid_type(float, L) when is_list(L) ->
+    try list_to_float(L) of
+        F ->
+            {true, F}
     catch
         _:_ ->
-            false
+            try list_to_integer(L) of
+                F ->
+                    {true, F*1.0}
+            catch
+                _:_ ->
+                    false
+            end
     end;
 
 valid_type(_, undefined) ->
@@ -115,6 +123,16 @@ valid_type(string, L) when is_binary(L) ->
     {true, binary_to_list(L)};
 valid_type(string, L) when is_list(L) ->
     {true, L};
+
+valid_type({list, Type}, L) when is_list(L) ->
+    L1 = [valid_type(Type, E) || E <- L],
+    L2 = [E || {true, E} <- L1],
+    case {length(L2), length(L)} of
+        {_Len, _Len} ->
+            {true, L2};
+        _ ->
+            false
+    end;
 
 valid_type(binary, B) when is_binary(B) ->
     {true, B};
@@ -135,4 +153,3 @@ valid_type({enum, Vs}, V) ->
 
 valid_type(_, _) ->
     false.
-

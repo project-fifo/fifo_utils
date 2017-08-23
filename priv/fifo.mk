@@ -37,7 +37,7 @@ upgrade: $(REBAR)
 update: $(REBAR)
 	$(REBAR) update
 
-tree: $(REBAR)
+tree: $(REBAR) rebar.lock
 	$(REBAR) tree | grep -v '=' | sed 's/ (.*//' > tree
 
 tree-diff: tree
