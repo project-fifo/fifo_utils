@@ -22,7 +22,10 @@ dep_list:
 clean-pkg:
 	-rm -r tmp build-info packlist
 
-tmp/$(FILE).tgz: dep_list package_list 
++MANIFEST: +MANIFEST.in
+        sed -e 's/__VNS__/${VERSION}/' +MANIFEST.in > +MANIFEST
+
+tmp/$(FILE).tgz: dep_list package_list +MANIFEST
 	-rm -r tmp
 	mkdir tmp
 	pkg_create -i install.sh -k deinstall.sh -D displayfile -B build-info -c comment -d description -f packlist -I $(TARGET_DIR) -p $(STAGE_DIR) -U tmp/$(FILE).tgz
