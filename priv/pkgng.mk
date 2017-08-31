@@ -24,7 +24,7 @@ $(STAGE_DIR)/+MANIFEST: +MANIFEST.in
 		for dep in ${DEPS}; do \
 		pkg query --glob "	\"%n\" : { \"origin\" : \"%o\", \"version\" : \"%v\" }," "$$dep"; \
 		done ; \
-		echo '}' ) > $(STAGE_DIR)/+MANIFEST
+		echo '}' ) >> $(STAGE_DIR)/+MANIFEST
 
 tmp/$(FILE).tgz: dep_list package_list +MANIFEST
 	-rm -r tmp
