@@ -8,24 +8,30 @@ PKG_HOMEPAGE ?=https://project-fifo.net
 
 .PHONY: package_list dep_list clean-pkg
 
-package_list:
-	-rm plist || true
-	(cd $(STAGE_DIR); find * -type f | sort) >> plist
+package: prepare $(STAGE_DIR)/+MANIFEST $(STAGE_DIR)/plist
+	cp +POST_INSTALL $(STAGE_DIR)/
+	pkg create -m $(STAGE_DIR)/ -r $(STAGE_DIR)/ -p $(STAGE_DIR)/plist -o .
 
-dep_list:
+$(STAGE_DIR)/plist:
+	-rm $(STAGE_DIR)/plist || true
+	(cd $(STAGE_DIR); find * -type f | sort) >> $(STAGE_DIR)/plist
+
+clean-pkg:
+
+$(STAGE_DIR)/+MANIFEST: +MANIFEST.in
+	sed -e 's/__VNS__/${VERSION}/' +MANIFEST.in > $(STAGE_DIR)/+MANIFEST
 	( echo 'deps:  { '; \
 		for dep in ${DEPS}; do \
 		pkg query --glob "	\"%n\" : { \"origin\" : \"%o\", \"version\" : \"%v\" }," "$$dep"; \
 		done ; \
-		echo '}' ) > deplist
-
-clean-pkg:
-	-rm -r tmp build-info packlist
-
-$(STAGE_DIR)/+MANIFEST: +MANIFEST.in
-	sed -e 's/__VNS__/${VERSION}/' +MANIFEST.in > $(STAGE_DIR)/+MANIFEST
+		echo '}' ) > $(STAGE_DIR)/+MANIFEST
 
 tmp/$(FILE).tgz: dep_list package_list +MANIFEST
 	-rm -r tmp
 	mkdir tmp
 	pkg_create -i install.sh -k deinstall.sh -D displayfile -B build-info -c comment -d description -f packlist -I $(TARGET_DIR) -p $(STAGE_DIR) -U tmp/$(FILE).tgz
+
+clean: clean-pkg
+	-rm -r tmp build-info packlist
+	-rm -r $(STAGE_DIR)
+	-rm *.tgz
