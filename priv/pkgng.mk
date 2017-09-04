@@ -14,7 +14,7 @@ package: prepare $(STAGE_DIR)/+MANIFEST $(STAGE_DIR)/plist
 
 $(STAGE_DIR)/plist:
 	-rm $(STAGE_DIR)/plist || true
-	(cd $(STAGE_DIR); find * -type f | sort | grep -v '^+' | grep -v '^plist\$') >> $(STAGE_DIR)/plist
+	(cd $(STAGE_DIR); find * -type f | sort | grep -v '^+' | grep -v '^plist$$') >> $(STAGE_DIR)/plist
 
 clean-pkg:
 
