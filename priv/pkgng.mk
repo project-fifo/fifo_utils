@@ -1,4 +1,5 @@
-TARGET_DIR ?=/opt/local
+TARGET_DIR ?=/usr/local/lib
+RC_DIR ?=/usr/local/etc/rc.d
 FILE ?=$(COMPONENT)-$(VERSION)$(SUFFIX)
 BLOCK_SIZE ?=65536
 STAGE_DIR ?=deploy
