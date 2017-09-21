@@ -20,7 +20,10 @@ xref: $(REBAR)
 	$(REBAR) xref
 
 test-scripts:
-	for i in rel/files/*; do (head -1 $$i | grep -v sh > /dev/null) || bash -n $$i || exit 1; done;
+	if [ -d rel/files ] ;\
+  then\
+    for i in rel/files/*; do (head -1 $$i | grep -v sh > /dev/null) || bash -n $$i || exit 1; done;\
+  fi
 
 test: $(REBAR)
 	$(REBAR) eunit
