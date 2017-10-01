@@ -1,0 +1,50 @@
+variables:
+  ERL_LIBS: "./libs"
+
+stages:
+  - test
+  - eqc
+  - upstream
+
+test:
+  stage: test
+  script:
+    - ./rebar3 as lint lint
+  tags:
+    - erlang-19
+
+dialyzer:
+  stage: test
+  script:
+    - ./rebar3 dialyzer
+  tags:
+    - erlang-19
+
+eunit:
+  stage: test
+  script:
+    - ./rebar3 eunit
+  tags:
+    - erlang-19
+
+eqc:
+  stage: eqc
+  script:
+    - mkdir libs
+    - cd libs
+    - curl -Ol http://www.quviq.com/wp-content/uploads/2015/09/eqcmini-2.01.0.zip
+    - unzip eqcmini-2.01.0.zip
+    - cd ..
+    - epmd &
+    - ./rebar3 as eqc eqc
+  tags:
+    - erlang-19
+
+upstream:
+  stage: upstream
+  script:
+    - 'curl --request POST --form "token=$CI_JOB_TOKEN" --form "ref=test" --form "variables[DOWNSTREAM_LIBRARY]=$CI_PROJECT_NAME" https://gitlab.com/api/v4/projects/$SNARL_PID/trigger/pipeline'
+    - 'curl --request POST --form "token=$CI_JOB_TOKEN" --form "ref=test" --form "variables[DOWNSTREAM_LIBRARY]=$CI_PROJECT_NAME" https://gitlab.com/api/v4/projects/$SNIFFLE_PID/trigger/pipeline'
+    - 'curl --request POST --form "token=$CI_JOB_TOKEN" --form "ref=test" --form "variables[DOWNSTREAM_LIBRARY]=$CI_PROJECT_NAME" https://gitlab.com/api/v4/projects/$WIGGLE_PID/trigger/pipeline'
+    - 'curl --request POST --form "token=$CI_JOB_TOKEN" --form "ref=test" --form "variables[DOWNSTREAM_LIBRARY]=$CI_PROJECT_NAME" https://gitlab.com/api/v4/projects/$CHUNTER_PID/trigger/pipeline'
+    - 'curl --request POST --form "token=$CI_JOB_TOKEN" --form "ref=test" --form "variables[DOWNSTREAM_LIBRARY]=$CI_PROJECT_NAME" https://gitlab.com/api/v4/projects/$FIFO_DNS_PID/trigger/pipeline'
