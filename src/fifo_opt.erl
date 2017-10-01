@@ -104,13 +104,7 @@ valid_type(float, L) when is_list(L) ->
             {true, F}
     catch
         _:_ ->
-            try list_to_integer(L) of
-                F ->
-                    {true, F*1.0}
-            catch
-                _:_ ->
-                    false
-            end
+            try_decode_i_as_f(L)
     end;
 
 valid_type(_, undefined) ->
@@ -153,3 +147,12 @@ valid_type({enum, Vs}, V) ->
 
 valid_type(_, _) ->
     false.
+
+try_decode_i_as_f(L) ->
+    try list_to_integer(L) of
+        F ->
+            {true, F*1.0}
+    catch
+        _:_ ->
+            false
+    end.

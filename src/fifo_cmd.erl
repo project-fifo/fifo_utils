@@ -34,9 +34,9 @@ wait_for_port(Port, Reply, Timeout) ->
             wait_for_port(Port, <<Reply/binary, Data/binary, "\n">>);
         {Port, {data, Data}} ->
             wait_for_port(Port, <<Reply/binary, Data/binary>>);
-        {Port,{exit_status, 0}} ->
+        {Port, {exit_status, 0}} ->
             {ok, Reply};
-        {Port,{exit_status, S}} ->
+        {Port, {exit_status, S}} ->
             {error, S, Reply}
     after
         Timeout ->

@@ -224,11 +224,11 @@ down([Node]) ->
 %% TODO: This was the original replaced it with some own code
 %% status([]) ->
 %%     try
-%%         %% Stats = riak_kv_status:statistics(),
-%% 	%% StatString = format_stats(Stats,
-%%         %%             ["-------------------------------------------\n",
-%% 	%%	     io_lib:format("1-minute stats for ~p~n",[node()])]),
-%% 	%% io:format("~s\n", [StatString])
+%%       %% Stats = riak_kv_status:statistics(),
+%%       %% StatString = format_stats(Stats,
+%%       %%             ["-------------------------------------------\n",
+%%       %%             io_lib:format("1-minute stats for ~p~n",[node()])]),
+%%       %% io:format("~s\n", [StatString])
 %%         ok
 %%     catch
 %%         Exception:Reason ->
@@ -283,12 +283,12 @@ reip([OldNode, NewNode]) ->
         %%
         case application:load(riak_core) of
             %% a process, such as cuttlefish, may have already loaded riak_core
-            {error,{already_loaded,riak_core}} -> ok;
+            {error, {already_loaded, riak_core}} -> ok;
             ok -> ok
         end,
         RingStateDir = app_helper:get_env(riak_core, ring_state_dir),
         {ok, RingFile} = riak_core_ring_manager:find_latest_ringfile(),
-        BackupFN = filename:join([RingStateDir, filename:basename(RingFile)++".BAK"]),
+        BackupFN = filename:join([RingStateDir, filename:basename(RingFile) ++ ".BAK"]),
         {ok, _} = file:copy(RingFile, BackupFN),
         io:format("Backed up existing ring file to ~p~n", [BackupFN]),
         Ring = riak_core_ring_manager:read_ringfile(RingFile),
@@ -425,7 +425,7 @@ aae_repair_status(ExchangeInfo) ->
                     string:centre(integer_to_list(Mean), 8),
                     string:centre(integer_to_list(Max), 8)]),
          ok
-     end || {Index, _, _, {Last,_Min,Max,Mean}} <- ExchangeInfo],
+     end || {Index, _, _, {Last, _Min, Max, Mean}} <- ExchangeInfo],
     ok.
 
 aae_tree_status(System) ->
