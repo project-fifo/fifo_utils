@@ -57,7 +57,12 @@ mk_args([K | R]) ->
 mk_val(I) when is_integer(I) ->
     integer_to_list(I);
 mk_val(A) when is_atom(A) ->
-    [$- | atom_to_list(A)];
+    case atom_to_list(A) of
+        [C] ->
+            [$-, C];
+        L ->
+            [$-, $- | L]
+    end;
 mk_val(L) when is_list(L)->
     L;
 mk_val(B) when is_binary(B) ->
